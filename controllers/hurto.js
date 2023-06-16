@@ -43,25 +43,26 @@ const hurtoPost = async(req, res = response) => {
     }
 }
 
-
-//Modificar
+// Modificar
 const hurtoPut = async(req, res = response) => {
+    const { direccion, latitud, longitud, descripcion } = req.body;
+    let mensaje = '';
 
-    const {direccion, latitud, longitud, descipcion } = req.body
-    let mensaje = ''
-
-    try{
-        const hurto = await Hurto.findOneAndUpdate({direccion: direccion},{latitud:latitud, longitud:longitud, descipcion:descipcion})
-        mensaje = 'La modificación se efectuó exitosamente'
-    }
-    catch(error){
-        mensaje = 'Se presentaron problemas en la modificación.'
+    try {
+        const hurto = await Hurto.findOneAndUpdate(
+            { direccion: direccion },
+            { latitud: latitud, longitud: longitud, descripcion: descripcion },
+            { new: true } // Agrega esta opción para devolver el hurto actualizado en lugar del antiguo
+        );
+        mensaje = 'La modificación se efectuó exitosamente';
+    } catch (error) {
+        mensaje = 'Se presentaron problemas en la modificación.';
     }
 
     res.json({
         msg: mensaje
-    })
-}
+    });
+};
 
 //Modificar
 const hurtoDelete = async(req, res = response) => {
